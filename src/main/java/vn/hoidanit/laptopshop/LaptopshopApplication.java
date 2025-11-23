@@ -3,11 +3,12 @@ package vn.hoidanit.laptopshop;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-
-@SpringBootApplication(exclude = {
-        org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration.class,
-        org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class
-})
+// Bỏ kết nối DB
+//@SpringBootApplication(exclude = {
+//        org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration.class,
+//        org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration.class
+//})
+@SpringBootApplication
 public class LaptopshopApplication {
 
 	public static void main(String[] args) {SpringApplication.run(LaptopshopApplication.class, args);
