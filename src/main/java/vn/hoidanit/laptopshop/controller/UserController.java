@@ -2,8 +2,12 @@ package vn.hoidanit.laptopshop.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import vn.hoidanit.laptopshop.entity.User;
 import vn.hoidanit.laptopshop.services.UserService;
 
 @Controller
@@ -23,5 +27,20 @@ public class UserController {
         model.addAttribute("eric", test);
         return "hello";
     }
+
+    // GET
     // return String :
+    @RequestMapping("admin/user/create")
+    public String getCreate(Model model) {
+        model.addAttribute("newUser", new User());
+        return "admin/user/create";
+    }
+
+    // POST
+    @RequestMapping(value = "admin/user/create1", method = RequestMethod.POST)
+    public String postCreate(@ModelAttribute("newUser") User newuser, BindingResult result) {
+        System.out.println(newuser);
+        System.out.println(result);
+        return "hello";
+    }
 }
