@@ -38,8 +38,8 @@
 
                             </div>
                             <div class="form-group">
-                                <label for="">address</label>
-                                <from:input type="text" name="address" id="" class="form-control" placeholder=""
+                                <label for=""></label>
+                                <form:input type="text" name="" id="" class="form-control" placeholder=""
                                     aria-describedby="helpId" path="address" />
 
                             </div>

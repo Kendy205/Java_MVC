@@ -1,5 +1,7 @@
 package vn.hoidanit.laptopshop.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,14 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import vn.hoidanit.laptopshop.entity.User;
+import vn.hoidanit.laptopshop.repository.UserRepository;
 import vn.hoidanit.laptopshop.services.UserService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class UserController {
-    private UserService userService;
+    private final UserService userService;
+    // private final UserRepository userRepository;
 
     public UserController(UserService userService) {
         this.userService = userService;
+
     }
 
     @RequestMapping("/")
@@ -39,8 +45,14 @@ public class UserController {
     // POST
     @RequestMapping(value = "admin/user/create1", method = RequestMethod.POST)
     public String postCreate(@ModelAttribute("newUser") User newuser, BindingResult result) {
-        System.out.println(newuser);
-        System.out.println(result);
+        this.userService.handleSaveUser(newuser);
         return "hello";
     }
+
+    @RequestMapping(value = "admin/user", method = RequestMethod.GET)
+    public String GetAllUser() {
+        List<User> users = this.userService.handleGetAllUser();
+        return "hello";
+    }
+
 }
