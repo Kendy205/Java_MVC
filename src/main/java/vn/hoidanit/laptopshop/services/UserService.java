@@ -1,6 +1,7 @@
 package vn.hoidanit.laptopshop.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,9 @@ public class UserService {
     public User getUserByIdOrEmail(long id, String email) {
         return this.userRepository.findByIdOrEmail(id, email);
     }
+
+    public Optional<User> getUserById(long id) {
+        return this.userRepository.findById(id);
+    }
+
 }

@@ -27,7 +27,47 @@
                 <div id="layoutSidenav_content">
                     <!-- Begin Main -->
                     <main>
-                        user
+                        <div class="container">
+                            <div class="row">
+                                <div class="header">User</div>
+                            </div>
+                            <div class="row">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">id</th>
+                                            <th scope="col">avatar</th>
+                                            <th scope="col">FullName</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Address</th>
+                                            <th scope="col">Phone</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="s" items="${users}">
+                                            <tr>
+                                                <th scope="row">${s.id}</th>
+                                                <th><img src="${s.avatar}" alt="${s.fullName}"></th>
+                                                <th>${s.fullName}</th>
+                                                <td>${s.email}</td>
+                                                <td>${s.address}</td>
+                                                <td>${s.phone}</td>
+                                                <td>
+                                                    <ul>
+                                                        <li>
+                                                            <a href="/admin/user/${s.id}">
+                                                                <div class="btn btn-success">Detail</div>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </main>
                     <!-- End Main -->
                     <jsp:include page="../layout/footer.jsp" />
