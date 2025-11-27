@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,18 +31,18 @@ import jakarta.servlet.ServletContext;
 @Controller
 public class UserController {
 
-    private final RoleRepository roleRepository;
     private final UserService userService;
     private final UploadService uploadService;
     private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
     // private final UserRepository userRepository;
 
     public UserController(UserService userService, UploadService uploadService, RoleService roleService,
-            RoleRepository roleRepository) {
+            PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.uploadService = uploadService;
         this.roleService = roleService;
-        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
 
     }
 
@@ -112,6 +114,10 @@ public class UserController {
         Optional<Role> role = this.roleService.getRoleByName(newUser.getRole().getName());
         if (role.isPresent()) {
             newUser.setRole(role.get());
+        }
+        String hashPw = this.passwordEncoder.encode(newUser.getPassword());
+        if (!hashPw.isEmpty()) {
+            newUser.setPassword(hashPw);
         }
         this.userService.handleSaveUser(newUser);
         return "redirect:/admin/user";
