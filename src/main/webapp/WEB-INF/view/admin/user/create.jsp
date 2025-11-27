@@ -42,13 +42,14 @@
                         <main>
                             <div class="container-fluid">
                                 <div class="row mx-auto">
-                                    <form:form method="post" action="/admin/user/created" modelAttribute="newUser">
+                                    <form:form method="post" enctype="multipart/form-data" action="/admin/user/created"
+                                        modelAttribute="newUser">
 
                                         <div class="form-group">
                                             <label for="">Avatar</label>
-                                            <form:input id="avatarFile" type="file" name="email" class="form-control"
-                                                placeholder="" aria-describedby="helpId" path="avatar" />
-                                            <img id="avatarPreview">
+                                            <input class="form-control" type="file" id="avatarFile" name="hoidanitFile"
+                                                accept=".png, .jpg, .jpeg" />
+                                            <img id="avatarPreview" />
                                         </div>
                                         <div class="form-group">
                                             <label for="">Email</label>
@@ -91,7 +92,7 @@
                     </div>
                     <!-- End Right content -->
                 </div>
-                <script src="js/scripts.js"></script>
+                <script src="/js/scripts.js"></script>
 
             </body>
 

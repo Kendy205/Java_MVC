@@ -1,5 +1,8 @@
 package vn.hoidanit.laptopshop.controller.admin;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,23 +12,35 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+import vn.hoidanit.laptopshop.entity.Role;
 import vn.hoidanit.laptopshop.entity.User;
-
+import vn.hoidanit.laptopshop.repository.RoleRepository;
+import vn.hoidanit.laptopshop.services.RoleService;
+import vn.hoidanit.laptopshop.services.UploadService;
 import vn.hoidanit.laptopshop.services.UserService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.servlet.ServletContext;
 
 @Controller
 public class UserController {
+
+    private final RoleRepository roleRepository;
     private final UserService userService;
+    private final UploadService uploadService;
+    private final RoleService roleService;
     // private final UserRepository userRepository;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UploadService uploadService, RoleService roleService,
+            RoleRepository roleRepository) {
         this.userService = userService;
+        this.uploadService = uploadService;
+        this.roleService = roleService;
+        this.roleRepository = roleRepository;
 
     }
 
@@ -79,17 +94,27 @@ public class UserController {
 
     // GET
     // return String :
-    @RequestMapping("/admin/user/create")
+    @GetMapping("/admin/user/create")
     public String getCreate(Model model) {
         model.addAttribute("newUser", new User());
         return "admin/user/create";
     }
 
     // POST
-    @RequestMapping(value = "/admin/user/created", method = RequestMethod.POST)
-    public String postCreate(@ModelAttribute("newUser") User newuser, BindingResult result) {
-        this.userService.handleSaveUser(newuser);
-        return "hello";
+    @PostMapping("/admin/user/created")
+    public String postCreate(@RequestParam("hoidanitFile") MultipartFile file, @ModelAttribute("newUser") User newUser,
+            BindingResult result) {
+
+        if (!file.isEmpty()) {
+            String avtarPath = this.uploadService.handleUpload(file, "avatars");
+            newUser.setAvatar(avtarPath);
+        }
+        Optional<Role> role = this.roleService.getRoleByName(newUser.getRole().getName());
+        if (role.isPresent()) {
+            newUser.setRole(role.get());
+        }
+        this.userService.handleSaveUser(newUser);
+        return "redirect:/admin/user";
     }
 
 }

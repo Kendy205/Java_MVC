@@ -48,7 +48,11 @@
                                         <c:forEach var="s" items="${users}">
                                             <tr>
                                                 <th scope="row">${s.id}</th>
-                                                <th><img src="${s.avatar}" alt="${s.fullName}"></th>
+                                                <th>
+                                                    <c:if test="${not empty s.avatar}">
+                                                        <img src="/img/avatars/${s.avatar}" alt="${s.fullName}">
+                                                    </c:if>
+                                                </th>
                                                 <th>${s.fullName}</th>
                                                 <td>${s.email}</td>
                                                 <td>${s.address}</td>
@@ -74,7 +78,7 @@
                 </div>
                 <!-- End Right content -->
             </div>
-            <script src="js/scripts.js"></script>
+            <script src="/js/scripts.js"></script>
 
         </body>
 
